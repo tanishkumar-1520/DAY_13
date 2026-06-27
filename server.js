@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- 🍃 MongoDB Connection Setup ---
-const MONGO_URI = 'mongodb+srv://rakhi57776_db_user:7835812188@cluster0.lvpd42j.mongodb.net/';
+const MONGO_URI = 'mongodb+srv://rakhi57776_db_user:db_password@cluster0.lvpd42j.mongodb.net/';
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('🍃 MongoDB Connected Successfully!'))
