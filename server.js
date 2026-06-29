@@ -1,102 +1,163 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const path = require('path');
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = 5000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-// --- 🍃 MongoDB Connection Setup ---
-const MONGO_URI = 'mongodb+srv://rakhi57776_db_user:db_password@cluster0.lvpd42j.mongodb.net/';
+// ================= MongoDB Connection =================
 
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('🍃 MongoDB Connected Successfully!'))
-    .catch((err) => console.error('MongoDB connection error:', err));
+mongoose.connect(
+"mongodb+srv://rakhi57776_db_user:7835812188@cluster0.fgcgb6v.mongodb.net/NotesDB?retryWrites=true&w=majority&appName=Cluster0"
+)
+.then(() => {
+    console.log("✅ MongoDB Connected Successfully");
+})
+.catch((err) => {
+    console.log("MongoDB Error");
+    console.log(err);
+});
 
-// --- 📄 Mongoose Schema & Model Setup ---
+// ================= Schema =================
+
 const noteSchema = new mongoose.Schema({
-    date: { type: String, required: true }, // Format: YYYY-MM-DD
-    text: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
+    date: {
+        type: String,
+        required: true
+    },
+    text: {
+        type: String,
+        required: true
+    }
 });
 
-noteSchema.virtual('id').get(function() {
-    return this._id.toHexString();
-});
-noteSchema.set('toJSON', { virtuals: true });
+const Note = mongoose.model("Note", noteSchema);
 
-const Note = mongoose.model('Note', noteSchema);
+// ================= GET =================
 
+app.get("/api/notes", async (req, res) => {
 
-// --- 🌐 API ENDPOINTS ---
-
-// 1. Get all notes from MongoDB (Sorted by date - Newest first)
-app.get('/api/notes', async (req, res) => {
     try {
-        const notes = await Note.find().sort({ date: -1, createdAt: -1 });
+
+        const notes = await Note.find().sort({ _id: -1 });
+
         res.json(notes);
-    } catch (error) {
-        res.status(500).json({ error: 'Data fetch karne mein dikkat aayi!' });
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
     }
+
 });
 
-// 2. Add a new note to MongoDB
-app.post('/api/notes', async (req, res) => {
-    const { date, text } = req.body;
-    if (!date || !text) {
-        return res.status(400).json({ error: 'it must filled date and text' });
-    }
+// ================= POST =================
+
+app.post("/api/notes", async (req, res) => {
 
     try {
-        const newNote = new Note({ date, text });
-        await newNote.save();
-        res.status(201).json(newNote);
-    } catch (error) {
-        res.status(500).json({ error: 'Note does not save !' });
+
+        const note = new Note({
+
+            date: req.body.date,
+
+            text: req.body.text
+
+        });
+
+        await note.save();
+
+        res.status(201).json(note);
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
     }
+
 });
 
-// 3. Update/Edit a note in MongoDB
-app.put('/api/notes/:id', async (req, res) => {
-    const { id } = req.params;
-    const { text, date } = req.body;
+// ================= UPDATE =================
+
+app.put("/api/notes/:id", async (req, res) => {
 
     try {
-        const updatedData = {};
-        if (text) updatedData.text = text;
-        if (date) updatedData.date = date;
 
-        const updatedNote = await Note.findByIdAndUpdate(id, updatedData, { new: true });
-        if (!updatedNote) {
-            return res.status(404).json({ error: 'Note not found' });
-        }
-        res.json({ message: 'Note successfully updatd!', updatedNote });
-    } catch (error) {
-        res.status(500).json({ error: 'problem to the update note' });
+        const updated = await Note.findByIdAndUpdate(
+
+            req.params.id,
+
+            {
+
+                date: req.body.date,
+
+                text: req.body.text
+
+            },
+
+            {
+
+                new: true
+
+            }
+
+        );
+
+        res.json(updated);
+
+    } catch (err) {
+
+        res.status(500).json({
+
+            message: err.message
+
+        });
+
     }
+
 });
 
-// 4. Delete a note from MongoDB
-app.delete('/api/notes/:id', async (req, res) => {
-    const { id } = req.params;
+// ================= DELETE =================
+
+app.delete("/api/notes/:id", async (req, res) => {
 
     try {
-        const deletedNote = await Note.findByIdAndDelete(id);
-        if (!deletedNote) {
-            return res.status(404).json({ error: 'Note not found' });
-        }
-        res.json({ message: 'Note successfully deleted' });
-    } catch (error) {
-        res.status(500).json({ error: 'problem to delete note' });
+
+        await Note.findByIdAndDelete(req.params.id);
+
+        res.json({
+
+            message: "Deleted Successfully"
+
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+
+            message: err.message
+
+        });
+
     }
+
 });
 
-// Server Listen
+// ================= Server =================
+
 app.listen(PORT, () => {
-    console.log(`🚀 Server chal raha hai: http://localhost:${PORT}`);
+
+    console.log(`Server Running : http://localhost:${PORT}`);
+
 });
