@@ -39,7 +39,7 @@ The frontend is built using HTML, CSS, and JavaScript, while the backend uses Ex
 
 ### Frontend
 
- HTML5
+- HTML5
 - CSS3
 - JavaScript (ES6)
 
