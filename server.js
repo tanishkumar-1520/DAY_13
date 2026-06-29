@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // ================= MongoDB Connection =================
 
 mongoose.connect(
-"mongodb+srv://rakhi57776_db_user:7835812188@cluster0.fgcgb6v.mongodb.net/NotesDB?retryWrites=true&w=majority&appName=Cluster0"
+"mongodb+srv://rakhi57776_db_user:YOUR_PASSWORD@cluster0.fgcgb6v.mongodb.net/NotesDB?retryWrites=true&w=majority&appName=Cluster0"
 )
 .then(() => {
     console.log("✅ MongoDB Connected Successfully");
