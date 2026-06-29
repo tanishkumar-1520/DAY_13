@@ -35,11 +35,11 @@ The frontend is built using HTML, CSS, and JavaScript, while the backend uses Ex
 
 ---
 
-# 🛠️ Technologies Used
+#  Technologies Used
 
 ### Frontend
 
-- HTML5
+ HTML5
 - CSS3
 - JavaScript (ES6)
 
@@ -55,7 +55,7 @@ The frontend is built using HTML, CSS, and JavaScript, while the backend uses Ex
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```
 Project
@@ -72,37 +72,9 @@ Project
 
 ---
 
-# ⚙️ Installation
 
-## Step 1
 
-Clone the repository
-
-```bash
-git clone <repository-url>
-```
-
-or download the ZIP file.
-
----
-
-## Step 2
-
-Open the project folder.
-
----
-
-## Step 3
-
-Install all required packages.
-
-```bash
-npm install
-```
-
----
-
-# 📦 Required Packages
+#  Required Packages
 
 If packages are not installed, run:
 
@@ -112,7 +84,7 @@ npm install express mongoose cors
 
 ---
 
-# 🍃 MongoDB Atlas Setup
+#  MongoDB Atlas Setup
 
 ## Create MongoDB Atlas Account
 
@@ -180,7 +152,7 @@ mongodb+srv://your_username:your_password@cluster0.xxxxx.mongodb.net/
 
 ---
 
-# 🔧 Configure MongoDB Connection
+#  Configure MongoDB Connection
 
 Open **server.js**
 
@@ -208,7 +180,7 @@ mongoose.connect(
 
 ---
 
-# ▶️ Run the Project
+#  Run the Project
 
 Start the server.
 
@@ -230,7 +202,7 @@ npx nodemon server.js
 
 ---
 
-# 🌐 Open in Browser
+#  Open in Browser
 
 ```
 http://localhost:5000
@@ -238,7 +210,7 @@ http://localhost:5000
 
 ---
 
-# 📌 API Endpoints
+#  API Endpoints
 
 ## Get All Notes
 
@@ -272,7 +244,7 @@ DELETE /api/notes/:id
 
 ---
 
-# 📷 MongoDB Compass
+#  MongoDB Compass
 
 You can also connect MongoDB Compass using the same connection string.
 
@@ -292,6 +264,6 @@ All notes will be stored inside the **notes** collection.
 
 ---
 
-# 👨‍💻 Author
+#  Author
 
-Developed by **Your Name**
+Developed by **Tanish Kumar**
